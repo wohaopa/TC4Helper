@@ -1,4 +1,4 @@
-package com.myname.mymodid;
+package com.github.wohaopa.tc4helper;
 
 public class ClientProxy extends CommonProxy {
 

@@ -1,4 +1,4 @@
-package com.myname.mymodid;
+package com.github.wohaopa.tc4helper;
 
 import java.io.File;
 
