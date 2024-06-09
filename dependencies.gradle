@@ -35,4 +35,7 @@
  */
 dependencies {
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.5.4-GTNH:dev")
+    implementation("thaumcraft:Thaumcraft:1.7.10-4.2.3.5:dev")
+//    runtimeOnly("com.github.GTNewHorizons:thaumcraft-research-tweaks:1.1.0:dev")
+    runtimeOnly("com.github.GTNewHorizons:Baubles:1.0.4:dev")
 }

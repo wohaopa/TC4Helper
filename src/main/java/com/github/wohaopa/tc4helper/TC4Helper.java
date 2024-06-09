@@ -16,7 +16,9 @@ public class TC4Helper {
     public static final String MODID = "tc4helper";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
-    @SidedProxy(clientSide = "com.github.wohaopa.tc4helper.ClientProxy", serverSide = "com.github.wohaopa.tc4helper.CommonProxy")
+    @SidedProxy(
+        clientSide = "com.github.wohaopa.tc4helper.ClientProxy",
+        serverSide = "com.github.wohaopa.tc4helper.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.EventHandler

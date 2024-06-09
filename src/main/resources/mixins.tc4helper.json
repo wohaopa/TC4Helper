@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8.5-GTNH",
+  "package": "com.github.wohaopa.tc4helper.mixins",
+  "refmap": "mixins.tc4helper.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+    "GuiResearchTableMixin"
+  ],
+  "server": []
+}
