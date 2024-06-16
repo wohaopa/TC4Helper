@@ -1,7 +1,7 @@
 package com.github.wohaopa.tc4helper.autoplay;
 
 import thaumcraft.api.aspects.Aspect;
-import thaumcraft.common.lib.HexUtils;
+import thaumcraft.common.lib.utils.HexUtils;
 
 public interface GuiResearchTableHelperInterface {
 

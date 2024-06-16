@@ -2,63 +2,50 @@ package com.github.wohaopa.tc4helper.autoplay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.player.EntityPlayer;
+
+import thaumcraft.common.lib.research.ResearchNoteData;
 
 public class AutoPlayButton extends GuiButton {
 
-    static AutoPlay autoPlay;
+    private static AutoPlay autoPlay = new AutoPlay();
+
+    public static void restart() {
+        autoPlay.interrupt();
+
+        autoPlay = new AutoPlay();
+    }
 
     public AutoPlayButton(int buttonId, int x, int y, int width, int height) {
         super(buttonId, x, y, width, height, "");
     }
 
-    public boolean canAborted() {
-        return autoPlay != null && !autoPlay.isCompleted() && !autoPlay.isAborted();
-    }
-
-    public boolean canExecute() {
-        return autoPlay != null && autoPlay.isResult() && autoPlay.isCompleted();
-    }
-
-    public boolean canStart() {
-        return autoPlay == null;
-    }
-
-    public void abort() {
-        autoPlay.abort();
-    }
-
-    public void execute() {
-        autoPlay.execute();
-        autoPlay = null;
-    }
-
-    public boolean hasResult() {
-        return autoPlay != null && autoPlay.isResult();
-    }
-
-    public void setAutoPlay(AutoPlay autoPlay) {
-        AutoPlayButton.autoPlay = autoPlay;
-    }
-
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-
-        if (canStart()) displayString = "AutoPlay";
-        else if (hasResult()) displayString = "HasResult";
-        else if (canAborted()) displayString = "Play...";
-        else if (canExecute()) displayString = "Execute";
-        else if (complete()) displayString = "Reset";
-        else displayString = "UnKnown";
-
+        switch (autoPlay.getStatus()) {
+            case Done -> displayString = "完成";
+            case Leisure -> displayString = "AutoPlay";
+            case Searching -> displayString = "搜索";
+            case CanExecute -> displayString = "可以执行";
+            case Execute -> displayString = "执行";
+        }
         super.drawButton(mc, mouseX, mouseY);
 
     }
 
-    public boolean complete() {
-        return autoPlay != null && !autoPlay.isResult() && autoPlay.isCompleted();
-    }
+    public void onAction(EntityPlayer player, ResearchNoteData note, GuiResearchTableHelperInterface obj) {
 
-    public void reset() {
-        autoPlay = null;
+        switch (autoPlay.getStatus()) {
+            case Leisure, Done -> {
+                if (autoPlay.set(obj, player, note)) autoPlay.start();
+            }
+            case Searching -> {
+                autoPlay.abort();
+            }
+            case CanExecute, Execute -> {
+                autoPlay.execute();
+            }
+
+        }
     }
 }
