@@ -2,6 +2,7 @@ package com.github.wohaopa.tc4helper.autoplay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 
 import thaumcraft.common.lib.research.ResearchNoteData;
@@ -22,12 +23,16 @@ public class AutoPlayButton extends GuiButton {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        this.enabled = true;
         switch (autoPlay.getStatus()) {
-            case Done -> displayString = "完成";
-            case Leisure -> displayString = "AutoPlay";
-            case Searching -> displayString = "搜索";
-            case CanExecute -> displayString = "可以执行";
-            case Execute -> displayString = "执行";
+            case Done -> displayString = I18n.format("TC4Helper.Done");
+            case Leisure -> displayString = I18n.format("TC4Helper.Leisure");
+            case Searching -> {
+                displayString = I18n.format("TC4Helper.Searching");
+                this.enabled = false;
+            }
+            case CanExecute -> displayString = I18n.format("TC4Helper.CanExecute");
+            case Execute -> displayString = I18n.format("TC4Helper.Execute");
         }
         super.drawButton(mc, mouseX, mouseY);
 
