@@ -42,7 +42,7 @@ public class AutoPlayButton extends GuiButton {
 
         switch (autoPlay.getStatus()) {
             case Leisure, Done -> {
-                if (autoPlay.set(obj, player, note)) autoPlay.start();
+                if (note != null) if (autoPlay.set(obj, player, note)) autoPlay.start();
             }
             case Searching -> {
                 autoPlay.abort();
