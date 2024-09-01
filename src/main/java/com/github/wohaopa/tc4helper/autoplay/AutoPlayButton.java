@@ -13,6 +13,7 @@ public class AutoPlayButton extends GuiButton {
 
     public static void restart() {
         autoPlay.interrupt();
+        autoPlay.abort();
 
         autoPlay = new AutoPlay();
     }
@@ -23,13 +24,11 @@ public class AutoPlayButton extends GuiButton {
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        this.enabled = true;
         switch (autoPlay.getStatus()) {
             case Done -> displayString = I18n.format("TC4Helper.Done");
             case Leisure -> displayString = I18n.format("TC4Helper.Leisure");
             case Searching -> {
                 displayString = I18n.format("TC4Helper.Searching");
-                this.enabled = false;
             }
             case CanExecute -> displayString = I18n.format("TC4Helper.CanExecute");
             case Execute -> displayString = I18n.format("TC4Helper.Execute");
@@ -44,12 +43,8 @@ public class AutoPlayButton extends GuiButton {
             case Leisure, Done -> {
                 if (note != null) if (autoPlay.set(obj, player, note)) autoPlay.start();
             }
-            case Searching -> {
-                autoPlay.abort();
-            }
-            case CanExecute, Execute -> {
-                autoPlay.execute();
-            }
+            case Searching -> autoPlay.abort();
+            case CanExecute, Execute -> autoPlay.execute();
 
         }
     }

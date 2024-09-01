@@ -90,10 +90,11 @@ public class AutoPlay extends Thread {
         while (true) {
             if (!this.isAlive() || this.isInterrupted()) break;
             if (status == Status.Searching) search();
+            System.gc();
 
             Thread.yield();
             try {
-                Thread.sleep(10);
+                Thread.sleep(500);
             } catch (Exception e) {}
         }
 
@@ -243,8 +244,10 @@ public class AutoPlay extends Thread {
         }
         // 第二步: 广度优先搜索(要素组成) 得到路线图 在最短可达距离的基础上计算两两节点之间的链接距离
         // 价值计算
+        if (status != Status.Searching) return;
         {
             for (Edge edge : edges) {
+                if (status != Status.Searching) return;
                 if (edge.distanceNull != edge.pathNode.size() - 2) { // 有特殊节点 比如玩家放置的，或者原始有的
 
                 }
@@ -261,6 +264,7 @@ public class AutoPlay extends Thread {
                 double min = Double.MAX_VALUE;
 
                 while (!queue.isEmpty()) {
+                    if (status != Status.Searching) return;
                     AspectEntry entry = queue.poll();
                     if (entry.aspect == edge.point2.aspect && entry.path.size() >= length) {
                         completes.add(entry);
@@ -283,9 +287,8 @@ public class AutoPlay extends Thread {
                 edge.value = edge.aspects.get(0).value;
             }
         }
-
         // 第三步: 最小生成树(要素路线图) 得到生成树
-
+        if (status != Status.Searching) return;
         {
             edges.sort(Comparator.comparingDouble(o -> o.value));
 
@@ -296,6 +299,7 @@ public class AutoPlay extends Thread {
             }
 
             for (Edge edge : edges) {
+                if (status != Status.Searching) return;
 
                 int group1 = groups.get(edge.point1);
                 int group2 = groups.get(edge.point2);
